@@ -8,11 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script>
+        // Toggle dark mode and update hero background
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
             updateHeroBackground();
         }
 
+        // Update hero background based on dark mode
         function updateHeroBackground() {
             const hero = document.getElementById('hero');
             if (document.documentElement.classList.contains('dark')) {
@@ -22,9 +25,16 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", updateHeroBackground);
+        // Initialize dark mode from localStorage
+        document.addEventListener("DOMContentLoaded", () => {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.documentElement.classList.add('dark');
+            }
+            updateHeroBackground();
+        });
     </script>
     <style>
+        /* Custom animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -40,6 +50,16 @@
         .hover-glow:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 25px rgba(255, 105, 25, 0.3);
+        }
+
+        /* Retro Hockey Game Canvas */
+        #hockey-game {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
     </style>
 </head>
@@ -61,6 +81,7 @@
 
     <!-- Hero Section -->
     <section id="hero" class="h-screen flex items-center justify-center bg-cover bg-center relative transition-all duration-500">
+        <canvas id="hockey-game"></canvas>
         <div class="absolute inset-0 bg-black/60 dark:bg-black/40"></div>
         <div class="text-center relative z-10">
             <h1 class="text-6xl font-playfair font-bold text-white fade-in">Where Vision Meets Innovation</h1>
@@ -113,5 +134,102 @@
     <footer class="py-10 bg-gray-800 text-gray-300 text-center">
         <p>&copy; 2025 Danko Creative. All rights reserved.</p>
     </footer>
+
+    <!-- Retro Hockey Game Script -->
+    <script>
+        const canvas = document.getElementById('hockey-game');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Game variables
+        const paddleWidth = 10;
+        const paddleHeight = 80;
+        const ballSize = 10;
+        let ballX = canvas.width / 2;
+        let ballY = canvas.height / 2;
+        let ballSpeedX = 5;
+        let ballSpeedY = 5;
+        let player1Y = (canvas.height - paddleHeight) / 2;
+        let player2Y = (canvas.height - paddleHeight) / 2;
+        const paddleSpeed = 8;
+
+        // Draw paddles and ball
+        function draw() {
+            // Clear canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw paddles
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(20, player1Y, paddleWidth, paddleHeight); // Player 1
+            ctx.fillRect(canvas.width - 30, player2Y, paddleWidth, paddleHeight); // Player 2
+
+            // Draw ball
+            ctx.beginPath();
+            ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
+            ctx.fillStyle = '#ff0';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        // Update game state
+        function update() {
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            // Ball collision with top and bottom
+            if (ballY + ballSize > canvas.height || ballY - ballSize < 0) {
+                ballSpeedY = -ballSpeedY;
+            }
+
+            // Ball collision with paddles
+            if (ballX - ballSize < 30 && ballY > player1Y && ballY < player1Y + paddleHeight) {
+                ballSpeedX = -ballSpeedX;
+            }
+            if (ballX + ballSize > canvas.width - 30 && ballY > player2Y && ballY < player2Y + paddleHeight) {
+                ballSpeedX = -ballSpeedX;
+            }
+
+            // Ball out of bounds
+            if (ballX - ballSize < 0 || ballX + ballSize > canvas.width) {
+                resetBall();
+            }
+        }
+
+        // Reset ball to center
+        function resetBall() {
+            ballX = canvas.width / 2;
+            ballY = canvas.height / 2;
+            ballSpeedX = -ballSpeedX;
+        }
+
+        // Game loop
+        function gameLoop() {
+            draw();
+            update();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start game
+        gameLoop();
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'w' && player1Y > 0) {
+                player1Y -= paddleSpeed;
+            }
+            if (e.key === 's' && player1Y < canvas.height - paddleHeight) {
+                player1Y += paddleSpeed;
+            }
+            if (e.key === 'ArrowUp' && player2Y > 0) {
+                player2Y -= paddleSpeed;
+            }
+            if (e.key === 'ArrowDown' && player2Y < canvas.height - paddleHeight) {
+                player2Y += paddleSpeed;
+            }
+        });
+    </script>
 </body>
 </html>
