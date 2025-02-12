@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danko Creative - Web Development Expert</title>
+    <title>Danko Creative - WordPress & Web Development Expert</title>
     
-    <!-- Google Fonts -->
+    <!-- Open Source Libraries -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -18,46 +18,31 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background 0.3s ease, color 0.3s ease;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
         }
 
-        :root {
-            --bg-color: #f4f4f4;
-            --text-color: #2d2d2d;
-            --card-bg: rgba(255, 255, 255, 0.7);
-            --shadow-color: rgba(0, 0, 0, 0.2);
-        }
-
-        .dark-mode {
-            --bg-color: #181818;
-            --text-color: #ffffff;
-            --card-bg: rgba(40, 40, 40, 0.8);
-            --shadow-color: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Sticky Glassmorphism Header */
+        /* Sticky Header */
         .header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            background: #ffffff;
             padding: 1rem 2rem;
-            box-shadow: 0 4px 10px var(--shadow-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             z-index: 1000;
-            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .logo {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.8rem;
             font-weight: 500;
-            color: var(--text-color);
+            color: #2d2d2d;
             text-decoration: none;
             transition: color 0.3s ease;
         }
@@ -69,159 +54,213 @@
         .nav-container {
             display: flex;
             align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-icons {
+            display: flex;
             gap: 1.5rem;
         }
 
-        .nav-icons a {
-            color: var(--text-color);
+        .nav-icon {
+            color: #666;
             text-decoration: none;
-            font-size: 1.4rem;
-            transition: color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.9rem;
         }
 
-        .nav-icons a:hover {
-            color: #f90;
+        .nav-icon i {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
         }
 
         /* Hero Section */
         .hero-section {
-            background: url('https://kevindank.github.io/images/splash.jpg') center/cover no-repeat;
-            height: 500px;
+            background: url('https://kevindank.github.io/images/splash.jpg') center/cover;
+            height: 450px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             color: white;
             position: relative;
-            overflow: hidden;
         }
 
         .hero-section h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 600;
-            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transform: translateY(50px);
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            animation: fadeIn 2s ease-in-out;
         }
 
-        /* Content Grid */
-        .content-grid {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .about-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-section p {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Services Section */
+        .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            padding: 4rem 2rem;
+            padding: 2rem;
         }
 
-        .card {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px var(--shadow-color);
-            backdrop-filter: blur(10px);
+        .service-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card h2 {
+            margin-bottom: 1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #ff8c00, #ff5500);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 2rem;
+            border-radius: 8px;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #ff5500;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background: #ffcc99;
         }
 
         /* Footer */
         footer {
-            background: #1e1e1e;
+            background: #232f3e;
             color: white;
             padding: 3rem 2rem;
             margin-top: 4rem;
-            text-align: center;
         }
 
-        /* Dark Mode Toggle */
-        .dark-mode-toggle {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: var(--text-color);
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        /* Mobile Navigation */
-        .hamburger {
-            display: none;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: 0.3s;
+        .footer-section h3 {
+            margin-bottom: 1rem;
         }
 
-        @media (max-width: 768px) {
-            .nav-container {
-                display: none;
-            }
-
-            .hamburger {
-                display: block;
-            }
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
         }
     </style>
 </head>
 <body>
     <header class="header">
         <a href="#" class="logo">Danko Creative</a>
-        <i class="fas fa-moon dark-mode-toggle"></i>
         <div class="nav-container">
             <div class="nav-icons">
-                <a href="#"><i class="fas fa-user"></i></a>
-                <a href="#"><i class="fas fa-shopping-cart"></i></a>
+                <a href="#" class="nav-icon">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </a>
+                <a href="#" class="nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                </a>
             </div>
         </div>
-        <i class="fas fa-bars hamburger"></i>
     </header>
 
     <main>
         <!-- Hero Section -->
         <div class="hero-section">
-            <h1>Transform Your Vision into Reality</h1>
+            <h1>Transform Your Vision into a High-Performing Website</h1>
         </div>
 
-        <!-- Services Grid -->
-        <div class="content-grid">
-            <div class="card">
-                <h2>WordPress Mastery</h2>
-                <p>From custom themes and plugins to WooCommerce, I handle it all.</p>
+        <!-- About Section -->
+        <div class="about-section">
+            <h2>About Me</h2>
+            <p>
+                I am a US-based web developer with 25 years of experience, specializing in **WordPress, WooCommerce, custom theme & plugin development, and performance optimization**.
+                My preferred tech stack includes **Astra, Elementor, LiteSpeed, and CyberPanel**, allowing for fast, responsive, and highly optimized websites.
+            </p>
+        </div>
+
+        <!-- Services -->
+        <div class="services-grid">
+            <div class="service-card">
+                <h2>WordPress & WooCommerce</h2>
+                <p>Expert in theme & plugin development, WooCommerce, BuddyPress, ACF, and more.</p>
             </div>
-            <div class="card">
+            <div class="service-card">
                 <h2>Speed Optimization</h2>
-                <p>I use LiteSpeed and CyberPanel to boost your website’s speed.</p>
+                <p>Using LiteSpeed & CyberPanel for blazing-fast load times and SEO boosts.</p>
             </div>
-            <div class="card">
+            <div class="service-card">
                 <h2>Custom Development</h2>
-                <p>Expert in HTML, CSS, PHP, and JavaScript for tailored solutions.</p>
+                <p>Proficient in PHP, HTML, CSS, and MediaWiki for tailored solutions.</p>
             </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h2>Have a Project in Mind?</h2>
+            <a href="#" class="cta-btn">Let's Talk</a>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer>
-        <p>© 2025 Danko Creative | All Rights Reserved</p>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <a href="#">Email</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
     </footer>
-
-    <!-- JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script>
-        // Hero Animation
-        gsap.to(".hero-section h1", { duration: 1.2, opacity: 1, y: 0, ease: "power2.out" });
-
-        // Dark Mode Toggle
-        const toggle = document.querySelector('.dark-mode-toggle');
-        toggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            toggle.classList.toggle('fa-moon');
-            toggle.classList.toggle('fa-sun');
-        });
-
-        // Mobile Navigation Toggle
-        document.querySelector('.hamburger').addEventListener('click', () => {
-            document.querySelector('.nav-container').classList.toggle('active');
-        });
-    </script>
 </body>
 </html>
