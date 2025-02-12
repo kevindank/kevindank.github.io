@@ -29,19 +29,22 @@
   <style>
     /* 
       COLOR SCHEME 
-      Extracted from the user-provided zombie comic:
+      Extracted from the zombie comic:
       - Greens, Blacks, Whites, Browns, Yellows
-      (No orange or grays)
     */
     :root {
       --zombie-green:  #9FC131; /* Main zombie skin tone */
-      --brick-red:     #B54F28; /* Brick background in the comic */
+      --brick-red:     #B54F28; /* Brick background */
       --wood-brown:    #754C24; /* Wood board color */
-      --hair-yellow:   #D8C58D; /* Zombie/hair highlight */
+      --hair-yellow:   #D8C58D; /* Hair highlight */
       --skin-tone:     #B5A28C; /* Character's skin tone */
       --pure-black:    #000000;
       --pure-white:    #FFFFFF;
     }
+
+    /* Custom text colors */
+    .text-skin-tone { color: var(--skin-tone); }
+    .text-brick-red { color: var(--brick-red); }
 
     /* Base fonts */
     body {
@@ -53,7 +56,7 @@
       font-family: "Playfair Display", serif;
     }
 
-    /* Basic dark/light toggling (Tailwind still applies but let's ensure black/white backgrounds) */
+    /* Dark/Light Backgrounds */
     body:not(.dark) {
       background-color: var(--pure-white);
       color: var(--pure-black);
@@ -63,11 +66,7 @@
       color: var(--pure-white);
     }
 
-    /* Headings and brand colors */
-    .text-zombie-green { color: var(--zombie-green); }
-    .bg-zombie-green { background-color: var(--zombie-green); }
-
-    /* "Glass" effect for overlay boxes */
+    /* Glass effect */
     .glass {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
@@ -76,30 +75,46 @@
 
     /* Animations */
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .fade-in-up {
       animation: fadeInUp 1.5s ease forwards;
     }
 
-    @keyframes floatImage {
-      0%   { transform: translateY(0px); }
-      50%  { transform: translateY(20px); }
-      100% { transform: translateY(0px); }
+    /* Cinematic Shake & Flash Animation for comic.jpg */
+    @keyframes cinematicShake {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+        filter: brightness(1);
+      }
+      10% {
+        transform: translate(-5px, -5px) rotate(-2deg);
+        filter: brightness(1.2);
+      }
+      20% {
+        transform: translate(5px, 5px) rotate(2deg);
+        filter: brightness(0.8);
+      }
+      30% {
+        transform: translate(-3px, 3px) rotate(-1deg);
+        filter: brightness(1.1);
+      }
+      40% {
+        transform: translate(0, 0) rotate(0deg);
+        filter: brightness(1);
+      }
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+        filter: brightness(1);
+      }
     }
-    /* Make the provided comic image gently float to feel dynamic */
+    /* Apply the cinematic animation with a 4s cycle */
     #comicGraphic {
-      animation: floatImage 4s ease-in-out infinite;
+      animation: cinematicShake 4s ease-in-out infinite;
     }
 
-    /* Hero background parallax effect */
+    /* Hero Section - parallax background */
     #hero {
       background-attachment: fixed;
       background-size: cover;
@@ -108,12 +123,8 @@
 
     /* Zombie Spawning Game Keyframes */
     @keyframes moveZombie {
-      0% {
-        transform: translateX(110%); /* start off-screen to the right */
-      }
-      100% {
-        transform: translateX(-150%); /* move off-screen to the left */
-      }
+      0% { transform: translateX(110%); }
+      100% { transform: translateX(-150%); }
     }
     .zombie {
       position: absolute;
@@ -128,19 +139,19 @@
 
 <body class="transition-colors duration-500">
   <!-- Header -->
-  <header class="fixed w-full bg-pure-black/50 dark:bg-pure-black/70 backdrop-blur-md z-50">
+  <header class="fixed w-full bg-black/50 dark:bg-black/70 backdrop-blur-md z-50">
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
       <div class="flex items-center space-x-3">
-        <img src="zombie-comic.jpg" alt="Zombie Comic Logo" class="w-10 h-10 object-contain" />
-        <span class="text-2xl font-playfair font-bold text-hair-yellow">Zombie Web</span>
+        <img src="images/comic.jpg" alt="Zombie Comic Logo" class="w-10 h-10 object-contain" />
+        <span class="text-2xl font-playfair font-bold" style="color: var(--hair-yellow);">Zombie Web</span>
       </div>
       <nav class="flex items-center space-x-6">
-        <a href="#hero" class="hover:text-zombie-green">Home</a>
-        <a href="#about" class="hover:text-zombie-green">About</a>
-        <a href="#services" class="hover:text-zombie-green">Services</a>
-        <a href="#game" class="hover:text-zombie-green">Spawn Game</a>
-        <a href="#contact" class="hover:text-zombie-green">Contact</a>
-        <button onclick="toggleDarkMode()" class="hover:text-zombie-green">
+        <a href="#hero" class="hover:text-[var(--zombie-green)]">Home</a>
+        <a href="#about" class="hover:text-[var(--zombie-green)]">About</a>
+        <a href="#services" class="hover:text-[var(--zombie-green)]">Services</a>
+        <a href="#game" class="hover:text-[var(--zombie-green)]">Spawn Game</a>
+        <a href="#contact" class="hover:text-[var(--zombie-green)]">Contact</a>
+        <button onclick="toggleDarkMode()" class="hover:text-[var(--zombie-green)]">
           <i class="fas fa-adjust"></i>
         </button>
       </nav>
@@ -153,18 +164,18 @@
     class="h-screen w-full flex items-center justify-center relative"
     style="background-image: url('images/comic.jpg');"
   >
-    <div class="absolute inset-0 bg-pure-black/60"></div>
+    <div class="absolute inset-0 bg-black/60"></div>
     <div class="relative text-center fade-in-up">
-      <h1 class="text-5xl md:text-6xl font-playfair font-bold text-hair-yellow mb-4">
+      <h1 class="text-5xl md:text-6xl font-playfair font-bold" style="color: var(--hair-yellow); margin-bottom: 1rem;">
         The Apocalypse Is Here
       </h1>
       <p class="text-xl md:text-2xl mb-6 max-w-2xl mx-auto text-skin-tone">
-        Brace your website for the onslaught of undead slowdowns. 
+        Brace your website for the onslaught of undead slowdowns.
         Together, we'll fortify your digital stronghold!
       </p>
       <a
         href="#contact"
-        class="inline-block px-8 py-3 bg-zombie-green text-pure-black font-bold rounded-md hover:opacity-80 transition"
+        class="inline-block px-8 py-3 bg-[var(--zombie-green)] text-black font-bold rounded-md hover:opacity-80 transition"
       >
         Secure Your Site
       </a>
@@ -174,12 +185,11 @@
   <!-- About Section -->
   <section id="about" class="py-16">
     <div class="container mx-auto px-6 flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-10">
-      <!-- The provided graphic, made interactive -->
+      <!-- Interactive Comic Image -->
       <div class="md:w-1/2 flex justify-center">
-        <!-- Replace "zombie-comic.jpg" with your actual graphic's filename/path -->
         <img 
           id="comicGraphic" 
-          src="zombie-comic.jpg" 
+          src="images/comic.jpg" 
           alt="Zombie Comic Inspiration" 
           class="max-w-full h-auto rounded shadow-lg"
         />
@@ -188,38 +198,36 @@
       <div class="md:w-1/2 fade-in-up">
         <h2 class="text-4xl font-playfair font-bold text-brick-red mb-4">About Zombie Web</h2>
         <p class="text-skin-tone leading-relaxed">
-          Drawing from the intense visuals of classic horror comics,
-          <strong class="text-zombie-green">Zombie Web</strong> merges 
-          cinematic design with cutting-edge development. Our mission: 
-          to shield your online presence from the ravenous hordes of 
-          downtime and digital decay.
+          Drawing from the intense visuals of classic horror comics, 
+          <strong style="color: var(--zombie-green);">Zombie Web</strong> merges cinematic design with cutting-edge development. Our mission:
+          to shield your online presence from the ravenous hordes of downtime and digital decay.
         </p>
       </div>
     </div>
   </section>
 
   <!-- Services Section -->
-  <section id="services" class="py-16 bg-wood-brown/10">
+  <section id="services" class="py-16" style="background-color: rgba(117,76,36,0.1);">
     <div class="container mx-auto px-6">
       <h2 class="text-4xl font-playfair font-bold text-brick-red text-center mb-12">
         Our Services
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="glass p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 fade-in-up">
-          <h3 class="text-2xl font-playfair font-bold text-zombie-green mb-4">Web Design</h3>
-          <p class="text-pure-black dark:text-pure-white">
+          <h3 class="text-2xl font-playfair font-bold" style="color: var(--zombie-green); margin-bottom: 1rem;">Web Design</h3>
+          <p>
             We create visuals that grab attention and never let go—just like a zombie horde.
           </p>
         </div>
         <div class="glass p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 fade-in-up">
-          <h3 class="text-2xl font-playfair font-bold text-zombie-green mb-4">Development</h3>
-          <p class="text-pure-black dark:text-pure-white">
+          <h3 class="text-2xl font-playfair font-bold" style="color: var(--zombie-green); margin-bottom: 1rem;">Development</h3>
+          <p>
             Our code stands strong against the undead threat of bugs and performance bottlenecks.
           </p>
         </div>
         <div class="glass p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 fade-in-up">
-          <h3 class="text-2xl font-playfair font-bold text-zombie-green mb-4">Optimization</h3>
-          <p class="text-pure-black dark:text-pure-white">
+          <h3 class="text-2xl font-playfair font-bold" style="color: var(--zombie-green); margin-bottom: 1rem;">Optimization</h3>
+          <p>
             We fortify your site with speed enhancements that leave zombies (and your competition) behind.
           </p>
         </div>
@@ -232,12 +240,12 @@
     <div class="container mx-auto px-6 text-center">
       <h2 class="text-4xl font-playfair font-bold text-brick-red mb-6">Zombie Spawn</h2>
       <p class="mb-6 text-skin-tone">
-        Watch out! Zombies appear at random and shuffle across the screen. 
+        Watch out! Zombies appear at random and shuffle across the screen.
         There's no escape—only survival. Observe how they spawn and roam freely...
       </p>
       <div
         id="game-container"
-        class="relative mx-auto bg-pure-black/40 dark:bg-pure-black/60 glass rounded-lg overflow-hidden"
+        class="relative mx-auto bg-black/40 dark:bg-black/60 glass rounded-lg overflow-hidden"
         style="width: 600px; height: 300px;"
       >
         <!-- Zombies will be injected here by JavaScript -->
@@ -246,35 +254,18 @@
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-16 bg-brick-red/10">
+  <section id="contact" class="py-16" style="background-color: rgba(181,79,40,0.1);">
     <div class="container mx-auto px-6">
       <div class="max-w-2xl mx-auto glass p-8 rounded-lg shadow-xl text-center">
-        <h2 class="text-4xl font-playfair font-bold text-brick-red mb-4">
-          Contact Us
-        </h2>
+        <h2 class="text-4xl font-playfair font-bold text-brick-red mb-4">Contact Us</h2>
         <p class="mb-6 text-skin-tone">
           Ready to reinforce your digital fortress? Let’s team up!
         </p>
         <form class="space-y-4">
-          <input
-            type="text"
-            placeholder="Your Name"
-            class="w-full p-4 rounded-lg bg-pure-white/80 dark:bg-pure-black/70 border border-pure-black/20 dark:border-pure-white/20 focus:outline-none focus:ring-2 focus:ring-zombie-green"
-          />
-          <input
-            type="email"
-            placeholder="Your Email"
-            class="w-full p-4 rounded-lg bg-pure-white/80 dark:bg-pure-black/70 border border-pure-black/20 dark:border-pure-white/20 focus:outline-none focus:ring-2 focus:ring-zombie-green"
-          />
-          <textarea
-            placeholder="Your Message"
-            rows="4"
-            class="w-full p-4 rounded-lg bg-pure-white/80 dark:bg-pure-black/70 border border-pure-black/20 dark:border-pure-white/20 focus:outline-none focus:ring-2 focus:ring-zombie-green"
-          ></textarea>
-          <button
-            type="submit"
-            class="w-full bg-zombie-green text-pure-black p-4 rounded-lg font-bold hover:opacity-80 transition-colors"
-          >
+          <input type="text" placeholder="Your Name" class="w-full p-4 rounded-lg bg-white/80 dark:bg-black/70 border border-black/20 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-[var(--zombie-green)]" />
+          <input type="email" placeholder="Your Email" class="w-full p-4 rounded-lg bg-white/80 dark:bg-black/70 border border-black/20 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-[var(--zombie-green)]" />
+          <textarea placeholder="Your Message" rows="4" class="w-full p-4 rounded-lg bg-white/80 dark:bg-black/70 border border-black/20 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-[var(--zombie-green)]"></textarea>
+          <button type="submit" class="w-full bg-[var(--zombie-green)] text-black p-4 rounded-lg font-bold hover:opacity-80 transition-colors">
             Send Message
           </button>
         </form>
@@ -283,7 +274,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="py-8 bg-pure-black text-pure-white text-center">
+  <footer class="py-8 bg-black text-white text-center">
     <p>&copy; 2025 Zombie Web. All rights reserved.</p>
   </footer>
 
@@ -292,48 +283,25 @@
 
   <!-- Spawning Game + Interactive Elements -->
   <script>
-    // Toggle the trailer audio on page load for a cinematic vibe (or on user action)
-    // Uncomment if you'd like it to auto-play on load (some browsers block auto-play):
+    // Uncomment the line below to auto-play trailer audio (note: some browsers may block autoplay)
     // document.getElementById('trailerAudio').play();
 
-    // Setup a simple spawning mechanism
+    // Zombie Spawning Mechanism
     const gameContainer = document.getElementById("game-container");
-
     function spawnZombie() {
-      // Create zombie element
       const zombieEl = document.createElement("div");
       zombieEl.classList.add("zombie");
-
-      // Random vertical position (within container height)
       const containerHeight = gameContainer.clientHeight;
-      const randomY = Math.floor(Math.random() * (containerHeight - 80)); // minus zombie height
+      const randomY = Math.floor(Math.random() * (containerHeight - 80));
       zombieEl.style.top = randomY + "px";
-
-      // Insert into container
       gameContainer.appendChild(zombieEl);
-
-      // Remove after animation completes (6s)
       setTimeout(() => {
         if (gameContainer.contains(zombieEl)) {
           gameContainer.removeChild(zombieEl);
         }
       }, 6000);
     }
-
-    // Spawn a new zombie every 3 seconds
     setInterval(spawnZombie, 3000);
-
-    // Make the main comic image float around more dramatically on mouse move
-    const comicGraphic = document.getElementById("comicGraphic");
-    document.addEventListener("mousemove", (e) => {
-      // Calculate some rotation or translation based on mouse position
-      const x = e.clientX / window.innerWidth - 0.5;
-      const y = e.clientY / window.innerHeight - 0.5;
-      const rotateMax = 10; // degrees
-      const rotateX = rotateMax * y * -1; 
-      const rotateY = rotateMax * x;
-      comicGraphic.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    });
   </script>
 </body>
 </html>
