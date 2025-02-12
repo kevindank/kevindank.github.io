@@ -28,9 +28,8 @@
 
   <style>
     /* 
-      COLOR SCHEME 
-      Extracted from the zombie comic:
-      - Greens, Blacks, Whites, Browns, Yellows
+      COLOR SCHEME from the comic:
+      Greens, Blacks, Whites, Browns, Yellows
     */
     :root {
       --zombie-green:  #9FC131; /* Main zombie skin tone */
@@ -41,7 +40,7 @@
       --pure-black:    #000000;
       --pure-white:    #FFFFFF;
     }
-
+    
     /* Custom text colors */
     .text-skin-tone { color: var(--skin-tone); }
     .text-brick-red { color: var(--brick-red); }
@@ -55,7 +54,7 @@
     .font-playfair {
       font-family: "Playfair Display", serif;
     }
-
+    
     /* Dark/Light Backgrounds */
     body:not(.dark) {
       background-color: var(--pure-white);
@@ -65,14 +64,14 @@
       background-color: var(--pure-black);
       color: var(--pure-white);
     }
-
+    
     /* Glass effect */
     .glass {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
-
+    
     /* Animations */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
@@ -81,8 +80,8 @@
     .fade-in-up {
       animation: fadeInUp 1.5s ease forwards;
     }
-
-    /* Cinematic Shake & Flash Animation for comic.jpg */
+    
+    /* Cinematic Shake & Flash for comic.jpg */
     @keyframes cinematicShake {
       0% {
         transform: translate(0, 0) rotate(0deg);
@@ -100,39 +99,63 @@
         transform: translate(-3px, 3px) rotate(-1deg);
         filter: brightness(1.1);
       }
-      40% {
-        transform: translate(0, 0) rotate(0deg);
-        filter: brightness(1);
-      }
+      40%,
       100% {
         transform: translate(0, 0) rotate(0deg);
         filter: brightness(1);
       }
     }
-    /* Apply the cinematic animation with a 4s cycle */
     #comicGraphic {
       animation: cinematicShake 4s ease-in-out infinite;
     }
-
+    
     /* Hero Section - parallax background */
     #hero {
       background-attachment: fixed;
       background-size: cover;
       background-position: center;
     }
-
-    /* Zombie Spawning Game Keyframes */
-    @keyframes moveZombie {
-      0% { transform: translateX(110%); }
-      100% { transform: translateX(-150%); }
-    }
+    
+    /* 8-Bit Zombie Game (Pure CSS) */
+    /* Using a pixelated image for 8-bit feel.
+       Ensure you have an 8-bit zombie image at "images/zombie8bit.png"
+       or replace the URL with one of your choice. */
     .zombie {
       position: absolute;
-      top: 50%;
       width: 80px;
       height: 80px;
-      background: url('https://source.unsplash.com/80x80/?zombie,comic') center/cover no-repeat;
-      animation: moveZombie 6s linear forwards;
+      background: url('images/zombie8bit.png') center/contain no-repeat;
+      image-rendering: pixelated;
+      /* The moveZombie animation makes the zombie cross the container */
+      animation: moveZombie 6s linear infinite;
+    }
+    @keyframes moveZombie {
+      0% { transform: translateX(110%); }
+      100% { transform: translateX(-120%); }
+    }
+    /* 
+      Create multiple zombies with different delays and vertical positions.
+      We use nth-child selectors to assign unique top positions and animation delays.
+    */
+    #game-container .zombie:nth-child(1) {
+      top: 10%;
+      animation-delay: 0s;
+    }
+    #game-container .zombie:nth-child(2) {
+      top: 35%;
+      animation-delay: 2s;
+    }
+    #game-container .zombie:nth-child(3) {
+      top: 60%;
+      animation-delay: 4s;
+    }
+    #game-container .zombie:nth-child(4) {
+      top: 80%;
+      animation-delay: 6s;
+    }
+    #game-container .zombie:nth-child(5) {
+      top: 20%;
+      animation-delay: 8s;
     }
   </style>
 </head>
@@ -235,20 +258,24 @@
     </div>
   </section>
 
-  <!-- Zombie Spawning Game Section -->
+  <!-- 8-Bit Zombie Spawning Game Section (Pure CSS) -->
   <section id="game" class="py-16">
     <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-playfair font-bold text-brick-red mb-6">Zombie Spawn</h2>
+      <h2 class="text-4xl font-playfair font-bold text-brick-red mb-6">8-Bit Zombie Spawn</h2>
       <p class="mb-6 text-skin-tone">
-        Watch out! Zombies appear at random and shuffle across the screen.
-        There's no escape—only survival. Observe how they spawn and roam freely...
+        Watch as 8-bit zombies relentlessly traverse the screen. No JavaScript—just pure CSS mayhem!
       </p>
       <div
         id="game-container"
         class="relative mx-auto bg-black/40 dark:bg-black/60 glass rounded-lg overflow-hidden"
         style="width: 600px; height: 300px;"
       >
-        <!-- Zombies will be injected here by JavaScript -->
+        <!-- Create multiple zombie elements with pure CSS animations -->
+        <div class="zombie"></div>
+        <div class="zombie"></div>
+        <div class="zombie"></div>
+        <div class="zombie"></div>
+        <div class="zombie"></div>
       </div>
     </div>
   </section>
@@ -278,30 +305,7 @@
     <p>&copy; 2025 Zombie Web. All rights reserved.</p>
   </footer>
 
-  <!-- Background Ambience or Trailer Music (optional) -->
+  <!-- Background Ambience / Trailer Music (Optional) -->
   <audio id="trailerAudio" src="https://www.soundjay.com/human/zombie-moaning-01.mp3" loop></audio>
-
-  <!-- Spawning Game + Interactive Elements -->
-  <script>
-    // Uncomment the line below to auto-play trailer audio (note: some browsers may block autoplay)
-    // document.getElementById('trailerAudio').play();
-
-    // Zombie Spawning Mechanism
-    const gameContainer = document.getElementById("game-container");
-    function spawnZombie() {
-      const zombieEl = document.createElement("div");
-      zombieEl.classList.add("zombie");
-      const containerHeight = gameContainer.clientHeight;
-      const randomY = Math.floor(Math.random() * (containerHeight - 80));
-      zombieEl.style.top = randomY + "px";
-      gameContainer.appendChild(zombieEl);
-      setTimeout(() => {
-        if (gameContainer.contains(zombieEl)) {
-          gameContainer.removeChild(zombieEl);
-        }
-      }, 6000);
-    }
-    setInterval(spawnZombie, 3000);
-  </script>
 </body>
 </html>
