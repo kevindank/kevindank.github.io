@@ -3,36 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danko Creative - Elevating Web Experiences</title>
+    <title>Danko Creative - Cinematic Web Experiences</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script>
-        // Toggle dark mode and update hero background
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
-            updateHeroBackground();
-        }
-
-        // Update hero background based on dark mode
-        function updateHeroBackground() {
-            const hero = document.getElementById('hero');
-            if (document.documentElement.classList.contains('dark')) {
-                hero.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?night,abstract')";
-            } else {
-                hero.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?light,architecture')";
-            }
-        }
-
-        // Initialize dark mode from localStorage
-        document.addEventListener("DOMContentLoaded", () => {
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.documentElement.classList.add('dark');
-            }
-            updateHeroBackground();
-        });
-    </script>
     <style>
         /* Custom animations */
         @keyframes fadeIn {
@@ -40,8 +14,14 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         .fade-in { animation: fadeIn 1.2s ease-out; }
         .fade-delay { animation: fadeIn 1.5s ease-out; }
+        .flicker { animation: flicker 1s infinite; }
 
         .hover-glow {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -52,183 +32,143 @@
             box-shadow: 0 10px 25px rgba(255, 105, 25, 0.3);
         }
 
-        /* Retro Hockey Game Canvas */
-        #hockey-game {
+        /* Cinematic overlay */
+        .cinematic-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
+            background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+            pointer-events: none;
+        }
+
+        /* Explosion effect */
+        .explosion {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: url('https://i.imgur.com/8QZQZ.png') center/cover;
+            animation: explode 1s ease-out;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
         }
     </style>
 </head>
-<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-inter">
+<body class="bg-black text-gray-100 font-inter">
     <!-- Header -->
-    <header class="fixed w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg z-50">
+    <header class="fixed w-full bg-black/90 backdrop-blur-md shadow-lg z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-3xl font-playfair font-bold text-orange-500 hover:text-orange-600 transition-colors">Danko Creative</a>
             <nav class="flex items-center space-x-8">
-                <a href="#services" class="text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">Services</a>
-                <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">About</a>
-                <a href="#contact" class="text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">Contact</a>
-                <button onclick="toggleDarkMode()" class="text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">
-                    <i class="fas fa-moon"></i>
-                </button>
+                <a href="#services" class="text-gray-300 hover:text-orange-500 transition-colors">Services</a>
+                <a href="#about" class="text-gray-300 hover:text-orange-500 transition-colors">About</a>
+                <a href="#contact" class="text-gray-300 hover:text-orange-500 transition-colors">Contact</a>
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section id="hero" class="h-screen flex items-center justify-center bg-cover bg-center relative transition-all duration-500">
-        <canvas id="hockey-game"></canvas>
-        <div class="absolute inset-0 bg-black/60 dark:bg-black/40"></div>
+    <section id="hero" class="h-screen flex items-center justify-center bg-cover bg-center relative overflow-hidden">
+        <div class="cinematic-overlay"></div>
+        <div class="absolute inset-0 bg-black/60"></div>
         <div class="text-center relative z-10">
-            <h1 class="text-6xl font-playfair font-bold text-white fade-in">Where Vision Meets Innovation</h1>
-            <p class="text-xl text-gray-300 fade-delay mt-4">Crafting seamless, high-performance digital experiences.</p>
-            <a href="#contact" class="mt-6 inline-block bg-orange-500 text-white px-10 py-4 rounded-lg hover:bg-orange-600 transition-colors fade-delay hover-glow">Start Your Project</a>
+            <h1 class="text-6xl font-playfair font-bold text-white fade-in">The Chase is On</h1>
+            <p class="text-xl text-gray-300 fade-delay mt-4">Crafting cinematic web experiences that thrill and captivate.</p>
+            <a href="#contact" class="mt-6 inline-block bg-orange-500 text-white px-10 py-4 rounded-lg hover:bg-orange-600 transition-colors fade-delay hover-glow">Join the Action</a>
         </div>
+        <!-- Explosions -->
+        <div id="explosion-container" class="absolute inset-0 pointer-events-none"></div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-20 bg-gray-100 dark:bg-gray-800">
+    <section id="about" class="py-20 bg-gray-900">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-4xl font-playfair font-bold text-orange-500 mb-8">About Me</h2>
-            <p class="max-w-2xl mx-auto text-gray-700 dark:text-gray-300">
-                25+ years of **expertise in WordPress, WooCommerce, and performance optimization**. Whether you need a custom-built website or optimization for speed and SEO, I provide tailored solutions that **turn ideas into reality**.
+            <p class="max-w-2xl mx-auto text-gray-300">
+                With **25+ years of experience**, I specialize in creating high-performance, visually stunning websites. From **WordPress and WooCommerce** to custom web applications, I bring your ideas to life with precision and flair.
             </p>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-20">
+    <section id="services" class="py-20 bg-black">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-4xl font-playfair font-bold text-orange-500 mb-12">Services</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover-glow">
+                <div class="bg-gray-900 p-8 rounded-lg shadow-lg hover-glow">
                     <h3 class="text-2xl font-playfair font-bold text-orange-500 mb-4">WordPress & WooCommerce</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Custom themes, plugins, and eCommerce solutions built for scalability.</p>
+                    <p class="text-gray-300">Custom themes, plugins, and eCommerce solutions built for scalability.</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover-glow">
+                <div class="bg-gray-900 p-8 rounded-lg shadow-lg hover-glow">
                     <h3 class="text-2xl font-playfair font-bold text-orange-500 mb-4">Speed Optimization</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Lightning-fast performance using LiteSpeed, CyberPanel, and caching techniques.</p>
+                    <p class="text-gray-300">Lightning-fast performance using LiteSpeed, CyberPanel, and caching techniques.</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover-glow">
+                <div class="bg-gray-900 p-8 rounded-lg shadow-lg hover-glow">
                     <h3 class="text-2xl font-playfair font-bold text-orange-500 mb-4">Custom Development</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Advanced PHP, JavaScript, and API integrations to extend functionality.</p>
+                    <p class="text-gray-300">Advanced PHP, JavaScript, and API integrations to extend functionality.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-gray-100 dark:bg-gray-800">
+    <section id="contact" class="py-20 bg-gray-900">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-4xl font-playfair font-bold text-orange-500 mb-8">Get in Touch</h2>
-            <p class="text-gray-700 dark:text-gray-300 max-w-xl mx-auto">Let's collaborate and bring your ideas to life.</p>
+            <p class="text-gray-300 max-w-xl mx-auto">Let's collaborate and bring your ideas to life.</p>
             <a href="mailto:your@email.com" class="mt-6 inline-block bg-orange-500 text-white px-10 py-4 rounded-lg hover:bg-orange-600 transition-colors hover-glow">Email Me</a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-10 bg-gray-800 text-gray-300 text-center">
+    <footer class="py-10 bg-black text-gray-300 text-center">
         <p>&copy; 2025 Danko Creative. All rights reserved.</p>
     </footer>
 
-    <!-- Retro Hockey Game Script -->
+    <!-- Sound Effects -->
+    <audio id="gunshot" src="https://assets.mixkit.co/sfx/preview/mixkit-gun-shot-1662.mp3"></audio>
+    <audio id="explosion" src="https://assets.mixkit.co/sfx/preview/mixkit-explosion-1697.mp3"></audio>
+    <audio id="siren" src="https://assets.mixkit.co/sfx/preview/mixkit-police-siren-1697.mp3"></audio>
+
+    <!-- Cinematic Script -->
     <script>
-        const canvas = document.getElementById('hockey-game');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        // Game variables
-        const paddleWidth = 10;
-        const paddleHeight = 80;
-        const ballSize = 10;
-        let ballX = canvas.width / 2;
-        let ballY = canvas.height / 2;
-        let ballSpeedX = 5;
-        let ballSpeedY = 5;
-        let player1Y = (canvas.height - paddleHeight) / 2;
-        let player2Y = (canvas.height - paddleHeight) / 2;
-        const paddleSpeed = 8;
-
-        // Draw paddles and ball
-        function draw() {
-            // Clear canvas
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Draw paddles
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(20, player1Y, paddleWidth, paddleHeight); // Player 1
-            ctx.fillRect(canvas.width - 30, player2Y, paddleWidth, paddleHeight); // Player 2
-
-            // Draw ball
-            ctx.beginPath();
-            ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
-            ctx.fillStyle = '#ff0';
-            ctx.fill();
-            ctx.closePath();
+        // Play sound effects
+        function playSound(soundId) {
+            const sound = document.getElementById(soundId);
+            sound.currentTime = 0;
+            sound.play();
         }
 
-        // Update game state
-        function update() {
-            ballX += ballSpeedX;
-            ballY += ballSpeedY;
-
-            // Ball collision with top and bottom
-            if (ballY + ballSize > canvas.height || ballY - ballSize < 0) {
-                ballSpeedY = -ballSpeedY;
-            }
-
-            // Ball collision with paddles
-            if (ballX - ballSize < 30 && ballY > player1Y && ballY < player1Y + paddleHeight) {
-                ballSpeedX = -ballSpeedX;
-            }
-            if (ballX + ballSize > canvas.width - 30 && ballY > player2Y && ballY < player2Y + paddleHeight) {
-                ballSpeedX = -ballSpeedX;
-            }
-
-            // Ball out of bounds
-            if (ballX - ballSize < 0 || ballX + ballSize > canvas.width) {
-                resetBall();
-            }
+        // Create explosion effect
+        function createExplosion(x, y) {
+            const explosion = document.createElement('div');
+            explosion.classList.add('explosion');
+            explosion.style.left = `${x}px`;
+            explosion.style.top = `${y}px`;
+            document.getElementById('explosion-container').appendChild(explosion);
+            setTimeout(() => explosion.remove(), 1000);
         }
 
-        // Reset ball to center
-        function resetBall() {
-            ballX = canvas.width / 2;
-            ballY = canvas.height / 2;
-            ballSpeedX = -ballSpeedX;
-        }
+        // Random explosions and sounds
+        setInterval(() => {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            createExplosion(x, y);
+            playSound('explosion');
+        }, 3000);
 
-        // Game loop
-        function gameLoop() {
-            draw();
-            update();
-            requestAnimationFrame(gameLoop);
-        }
+        // Siren sound
+        setInterval(() => {
+            playSound('siren');
+        }, 10000);
 
-        // Start game
-        gameLoop();
-
-        // Keyboard controls
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'w' && player1Y > 0) {
-                player1Y -= paddleSpeed;
-            }
-            if (e.key === 's' && player1Y < canvas.height - paddleHeight) {
-                player1Y += paddleSpeed;
-            }
-            if (e.key === 'ArrowUp' && player2Y > 0) {
-                player2Y -= paddleSpeed;
-            }
-            if (e.key === 'ArrowDown' && player2Y < canvas.height - paddleHeight) {
-                player2Y += paddleSpeed;
-            }
+        // Gunshot sound on click
+        document.addEventListener('click', () => {
+            playSound('gunshot');
         });
     </script>
 </body>
