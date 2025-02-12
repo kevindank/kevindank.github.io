@@ -2,39 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modern Cinematic Web Experience</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zombie Web - Inspired by the Comic</title>
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  />
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
 
   <script>
-    // Toggle Dark Mode and update Hero Background
+    // Toggle Dark Mode + Update Hero Background
     function toggleDarkMode() {
       document.documentElement.classList.toggle("dark");
       updateHeroBackground();
     }
+
     function updateHeroBackground() {
       const hero = document.getElementById("hero");
       if (document.documentElement.classList.contains("dark")) {
-        hero.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?night,city')";
+        hero.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?zombie,night')";
       } else {
-        hero.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?luxury,city')";
+        hero.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?zombie,apocalypse')";
       }
     }
+
     document.addEventListener("DOMContentLoaded", updateHeroBackground);
   </script>
 
   <style>
+    /* Font families */
     body {
       font-family: "Inter", sans-serif;
     }
     .font-playfair {
       font-family: "Playfair Display", serif;
     }
+
+    /* Colors inspired by the provided graphic */
+    :root {
+      --brick-red:  #B54F28; /* Brick color */
+      --zombie-green: #9FC131; /* Zombie skin color */
+      --hair-yellow: #D8C58D;  /* Zombie hair color */
+      --wood-brown: #754C24;   /* Wood board color */
+      --text-light:  #F2F2F2;
+      --text-dark:   #1C1C1C;
+    }
+
+    /* Override Tailwind color classes for brand usage */
+    .text-brand {
+      color: var(--brick-red);
+    }
+    .bg-brand {
+      background-color: var(--zombie-green);
+    }
+    .hover\:bg-brandHover:hover {
+      background-color: #87B021; /* Slightly darker green on hover */
+    }
+    .text-highlight {
+      color: var(--zombie-green);
+    }
+
     /* Animations */
     @keyframes fadeIn {
       from {
@@ -49,6 +85,7 @@
     .fade-in {
       animation: fadeIn 1.5s ease-out;
     }
+
     @keyframes slideIn {
       from {
         transform: translateX(-100%);
@@ -62,49 +99,48 @@
     .slide-in {
       animation: slideIn 1s ease-out;
     }
+
     /* Glass Effect */
     .glass {
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
-    /* Mini Game - Moving Target */
-    @keyframes moveTarget {
-      0% {
-        left: 0;
-      }
-      50% {
-        left: calc(100% - 60px);
-      }
-      100% {
-        left: 0;
-      }
+
+    /* Zombie Game Animation */
+    @keyframes zombieWalk {
+      0%   { left: 0;        top: 50%; }
+      25%  { left: 25%;      top: 40%; }
+      50%  { left: 50%;      top: 60%; }
+      75%  { left: 75%;      top: 45%; }
+      100% { left: 0;        top: 50%; }
     }
-    .target {
+    .zombie {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
       width: 60px;
       height: 60px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ff6b6b, #ff4757);
+      background: url('https://source.unsplash.com/60x60/?zombie,comic') center/cover no-repeat;
       cursor: pointer;
-      animation: moveTarget 2s infinite alternate ease-in-out;
+      animation: zombieWalk 3s infinite linear;
     }
   </style>
 </head>
+
 <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
   <!-- Header -->
   <header class="fixed w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg z-50">
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <a href="#" class="text-3xl font-playfair font-bold text-orange-500 hover:text-orange-600 transition-colors">Cinematic Web</a>
+      <!-- Brand Name -->
+      <a href="#" class="text-3xl font-playfair font-bold text-brand hover:text-highlight transition-colors">
+        Zombie Web
+      </a>
       <nav class="flex items-center space-x-8">
-        <a href="#hero" class="hover:text-orange-500 transition-colors">Home</a>
-        <a href="#about" class="hover:text-orange-500 transition-colors">About</a>
-        <a href="#services" class="hover:text-orange-500 transition-colors">Services</a>
-        <a href="#game" class="hover:text-orange-500 transition-colors">Game</a>
-        <a href="#contact" class="hover:text-orange-500 transition-colors">Contact</a>
-        <button onclick="toggleDarkMode()" class="hover:text-orange-500 transition-colors">
+        <a href="#hero" class="hover:text-highlight transition-colors">Home</a>
+        <a href="#about" class="hover:text-highlight transition-colors">About</a>
+        <a href="#services" class="hover:text-highlight transition-colors">Services</a>
+        <a href="#game" class="hover:text-highlight transition-colors">Zombie Game</a>
+        <a href="#contact" class="hover:text-highlight transition-colors">Contact</a>
+        <button onclick="toggleDarkMode()" class="hover:text-highlight transition-colors">
           <i class="fas fa-moon"></i>
         </button>
       </nav>
@@ -118,9 +154,18 @@
   >
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="relative text-center z-10 fade-in">
-      <h1 class="text-6xl font-playfair font-bold text-white mb-4">Experience the Extraordinary</h1>
-      <p class="text-xl text-gray-200 mb-6">A cinematic journey where design meets innovation.</p>
-      <a href="#contact" class="bg-orange-500 text-white px-8 py-4 rounded-lg hover:bg-orange-600 transition-colors shadow-lg">Get Started</a>
+      <h1 class="text-6xl font-playfair font-bold text-text-light mb-4">
+        Survive the Apocalypse
+      </h1>
+      <p class="text-xl text-text-light mb-6">
+        Board up your website. Defend against the undead of slow loading times.
+      </p>
+      <a
+        href="#contact"
+        class="bg-brand text-white px-8 py-4 rounded-lg hover:bg-brandHover transition-colors shadow-lg"
+      >
+        Fortify Now
+      </a>
     </div>
   </section>
 
@@ -128,87 +173,140 @@
   <section id="about" class="py-20">
     <div class="container mx-auto px-6">
       <div class="max-w-3xl mx-auto glass p-8 rounded-lg shadow-xl slide-in">
-        <h2 class="text-4xl font-playfair font-bold text-orange-500 mb-4 text-center">About Us</h2>
+        <h2 class="text-4xl font-playfair font-bold text-brand mb-4 text-center">
+          About Zombie Web
+        </h2>
         <p class="text-center text-gray-700 dark:text-gray-300">
-          We craft digital experiences that resonate with elegance and power. Our work is a blend of art and technology, inspired by the magic of cinema and the precision of modern design.
+          Inspired by classic horror comics, we fuse cinematic flair with cutting-edge
+          technology to deliver websites that are fast, resilient, and ready for any apocalypse.
+          From custom WordPress development to performance optimization, we help you stave off
+          the hordes of downtime and digital decay.
         </p>
       </div>
     </div>
   </section>
 
   <!-- Services Section -->
-  <section id="services" class="py-20 bg-gray-100 dark:bg-gray-800">
+  <section id="services" class="py-20 bg-[#F2EDE6] dark:bg-[#2A2A2A]">
     <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-playfair font-bold text-center text-orange-500 mb-12">Our Services</h2>
+      <h2 class="text-4xl font-playfair font-bold text-center text-brand mb-12">
+        Our Services
+      </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="glass p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 fade-in">
-          <h3 class="text-2xl font-playfair font-bold text-orange-500 mb-4">Web Design</h3>
-          <p class="text-gray-700 dark:text-gray-300">Stunning, cinematic designs that captivate and inspire.</p>
+          <h3 class="text-2xl font-playfair font-bold text-brand mb-4">Web Design</h3>
+          <p class="text-gray-700 dark:text-gray-300">
+            Gripping visuals that haunt (and delight) your visitors.
+          </p>
         </div>
         <div class="glass p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 fade-in">
-          <h3 class="text-2xl font-playfair font-bold text-orange-500 mb-4">Development</h3>
-          <p class="text-gray-700 dark:text-gray-300">Cutting-edge code and seamless functionality.</p>
+          <h3 class="text-2xl font-playfair font-bold text-brand mb-4">Development</h3>
+          <p class="text-gray-700 dark:text-gray-300">
+            Custom code that slays the undead errors lurking behind the scenes.
+          </p>
         </div>
         <div class="glass p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 fade-in">
-          <h3 class="text-2xl font-playfair font-bold text-orange-500 mb-4">Optimization</h3>
-          <p class="text-gray-700 dark:text-gray-300">Performance enhancements that deliver breathtaking speed.</p>
+          <h3 class="text-2xl font-playfair font-bold text-brand mb-4">Optimization</h3>
+          <p class="text-gray-700 dark:text-gray-300">
+            Fortify your site against slow load times—speed is your silver bullet.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Mini Game Section -->
+  <!-- Zombie Game Section -->
   <section id="game" class="py-20">
     <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-playfair font-bold text-orange-500 mb-4">Mini Game: Click the Target</h2>
-      <p class="text-gray-700 dark:text-gray-300 mb-6">Test your reflexes! Click on the moving target to score points.</p>
-      <div id="game-container" class="relative mx-auto glass rounded-lg" style="width: 400px; height: 200px;">
-        <div id="target" class="target"></div>
+      <h2 class="text-4xl font-playfair font-bold text-brand mb-4">
+        Zombie Clicker
+      </h2>
+      <p class="text-gray-700 dark:text-gray-300 mb-6">
+        Defend your site by eliminating wandering zombies. Click on the zombie to score points!
+      </p>
+      <div
+        id="game-container"
+        class="relative mx-auto glass rounded-lg overflow-hidden"
+        style="width: 400px; height: 200px;"
+      >
+        <div id="zombie" class="zombie"></div>
       </div>
-      <p class="mt-4 text-xl">Score: <span id="score">0</span></p>
+      <p class="mt-4 text-xl">
+        Score: <span id="score">0</span>
+      </p>
     </div>
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-20 bg-gray-100 dark:bg-gray-800">
+  <section id="contact" class="py-20 bg-[#F2EDE6] dark:bg-[#2A2A2A]">
     <div class="container mx-auto px-6">
       <div class="max-w-2xl mx-auto glass p-8 rounded-lg shadow-xl text-center">
-        <h2 class="text-4xl font-playfair font-bold text-orange-500 mb-4">Contact Us</h2>
-        <p class="mb-6 text-gray-700 dark:text-gray-300">Let's create something extraordinary together.</p>
+        <h2 class="text-4xl font-playfair font-bold text-brand mb-4">
+          Contact Us
+        </h2>
+        <p class="mb-6 text-gray-700 dark:text-gray-300">
+          Ready to reinforce your digital stronghold? Let’s get started.
+        </p>
         <form class="space-y-4">
-          <input type="text" placeholder="Your Name" class="w-full p-4 rounded-lg bg-white/80 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-          <input type="email" placeholder="Your Email" class="w-full p-4 rounded-lg bg-white/80 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-          <textarea placeholder="Your Message" rows="4" class="w-full p-4 rounded-lg bg-white/80 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
-          <button type="submit" class="w-full bg-orange-500 text-white p-4 rounded-lg hover:bg-orange-600 transition-colors">Send Message</button>
+          <input
+            type="text"
+            placeholder="Your Name"
+            class="w-full p-4 rounded-lg bg-white/80 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--zombie-green)]"
+          />
+          <input
+            type="email"
+            placeholder="Your Email"
+            class="w-full p-4 rounded-lg bg-white/80 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--zombie-green)]"
+          />
+          <textarea
+            placeholder="Your Message"
+            rows="4"
+            class="w-full p-4 rounded-lg bg-white/80 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--zombie-green)]"
+          ></textarea>
+          <button
+            type="submit"
+            class="w-full bg-brand text-white p-4 rounded-lg hover:bg-brandHover transition-colors"
+          >
+            Send Message
+          </button>
         </form>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="py-10 bg-gray-800 text-gray-300 text-center">
-    <p>&copy; 2025 Cinematic Web. All rights reserved.</p>
+  <footer class="py-10 bg-[#2A2A2A] text-[#F2F2F2] text-center">
+    <p>&copy; 2025 Zombie Web. All rights reserved.</p>
   </footer>
 
-  <!-- Audio for Game Click -->
-  <audio id="click-sound" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
+  <!-- Audio for Zombie Click -->
+  <audio id="shot-sound" src="https://www.soundjay.com/explosion/explosion-01.mp3"></audio>
+  <audio id="zombie-moaning" src="https://www.soundjay.com/human/scream-04.mp3"></audio>
 
-  <!-- JavaScript for Mini Game -->
+  <!-- JavaScript for Zombie Game -->
   <script>
     let score = 0;
-    const target = document.getElementById("target");
+    const zombie = document.getElementById("zombie");
     const scoreDisplay = document.getElementById("score");
-    const clickSound = document.getElementById("click-sound");
+    const shotSound = document.getElementById("shot-sound");
+    const zombieMoan = document.getElementById("zombie-moaning");
 
-    target.addEventListener("click", function (e) {
+    // Play a random moan every few seconds
+    setInterval(() => {
+      zombieMoan.currentTime = 0;
+      zombieMoan.play();
+    }, 8000);
+
+    // Click event to "kill" zombie
+    zombie.addEventListener("click", function (e) {
       score++;
       scoreDisplay.textContent = score;
-      clickSound.currentTime = 0;
-      clickSound.play();
-      // Reset animation to add a bit of randomness
-      target.style.animation = "none";
-      void target.offsetWidth; // Trigger reflow
-      target.style.animation = "moveTarget 2s infinite alternate ease-in-out";
+      shotSound.currentTime = 0;
+      shotSound.play();
+      // Restart the zombie animation to keep it moving unpredictably
+      zombie.style.animation = "none";
+      void zombie.offsetWidth; // Trigger reflow
+      zombie.style.animation = "zombieWalk 3s infinite linear";
       e.stopPropagation();
     });
   </script>
