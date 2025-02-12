@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danko Creative - WordPress & Web Development Expert</title>
+    <title>Danko Creative - Elevating Web Experiences</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script>
-        // Toggle dark mode
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
+            updateHeroBackground();
         }
+
+        function updateHeroBackground() {
+            const hero = document.getElementById('hero');
+            if (document.documentElement.classList.contains('dark')) {
+                hero.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?night,abstract')";
+            } else {
+                hero.style.backgroundImage = "url('https://source.unsplash.com/1920x1080/?light,architecture')";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", updateHeroBackground);
     </script>
     <style>
-        /* Custom animations */
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .animate-fadeInUp {
-            animation: fadeInUp 1s ease-out;
-        }
+        .fade-in { animation: fadeIn 1.2s ease-out; }
+        .fade-delay { animation: fadeIn 1.5s ease-out; }
 
-        .hover-scale {
+        .hover-glow {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .hover-scale:hover {
+        .hover-glow:hover {
             transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 25px rgba(255, 105, 25, 0.3);
         }
     </style>
 </head>
@@ -38,18 +47,8 @@
     <!-- Header -->
     <header class="fixed w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-playfair font-bold text-orange-500 hover:text-orange-600 transition-colors">Danko Creative</a>
+            <a href="#" class="text-3xl font-playfair font-bold text-orange-500 hover:text-orange-600 transition-colors">Danko Creative</a>
             <nav class="flex items-center space-x-8">
-                <div class="relative group">
-                    <a href="#" class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">
-                        <span>Shop</span>
-                        <i class="fas fa-chevron-down text-sm"></i>
-                    </a>
-                    <div class="absolute hidden group-hover:block bg-white dark:bg-gray-800 shadow-lg rounded-lg mt-2 py-2 w-48">
-                        <a href="#" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Plugins</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Themes</a>
-                    </div>
-                </div>
                 <a href="#services" class="text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">Services</a>
                 <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">About</a>
                 <a href="#contact" class="text-gray-700 dark:text-gray-300 hover:text-orange-500 transition-colors">Contact</a>
@@ -61,79 +60,58 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('https://unsplash.com/photos/a-close-up-of-a-computer-chip-with-a-blue-background-7okkFhxrxNw');">
-        <div class="absolute inset-0 bg-black/50"></div>
-        <div class="text-center relative z-10 animate-fadeInUp">
-            <h1 class="text-6xl font-playfair font-bold text-white mb-6">Transform Your Vision into a High-Performing Website</h1>
-            <p class="text-xl text-gray-200 mb-8">25+ years of expertise in WordPress, WooCommerce, and custom web development.</p>
-            <a href="#contact" class="bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors">Get Started</a>
+    <section id="hero" class="h-screen flex items-center justify-center bg-cover bg-center relative transition-all duration-500">
+        <div class="absolute inset-0 bg-black/60 dark:bg-black/40"></div>
+        <div class="text-center relative z-10">
+            <h1 class="text-6xl font-playfair font-bold text-white fade-in">Where Vision Meets Innovation</h1>
+            <p class="text-xl text-gray-300 fade-delay mt-4">Crafting seamless, high-performance digital experiences.</p>
+            <a href="#contact" class="mt-6 inline-block bg-orange-500 text-white px-10 py-4 rounded-lg hover:bg-orange-600 transition-colors fade-delay hover-glow">Start Your Project</a>
         </div>
     </section>
 
     <!-- About Section -->
     <section id="about" class="py-20 bg-gray-100 dark:bg-gray-800">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-playfair font-bold text-center text-orange-500 mb-8">About Me</h2>
-            <p class="max-w-2xl mx-auto text-center text-gray-700 dark:text-gray-300">
-                I am a US-based web developer with 25 years of experience, specializing in **WordPress, WooCommerce, custom theme & plugin development, and performance optimization**.
-                My preferred tech stack includes **Astra, Elementor, LiteSpeed, and CyberPanel**, allowing for fast, responsive, and highly optimized websites.
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-playfair font-bold text-orange-500 mb-8">About Me</h2>
+            <p class="max-w-2xl mx-auto text-gray-700 dark:text-gray-300">
+                25+ years of **expertise in WordPress, WooCommerce, and performance optimization**. Whether you need a custom-built website or optimization for speed and SEO, I provide tailored solutions that **turn ideas into reality**.
             </p>
         </div>
     </section>
 
     <!-- Services Section -->
     <section id="services" class="py-20">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-playfair font-bold text-center text-orange-500 mb-12">Services</h2>
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-playfair font-bold text-orange-500 mb-12">Services</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover-scale">
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover-glow">
                     <h3 class="text-2xl font-playfair font-bold text-orange-500 mb-4">WordPress & WooCommerce</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Expert in theme & plugin development, WooCommerce, BuddyPress, ACF, and more.</p>
+                    <p class="text-gray-700 dark:text-gray-300">Custom themes, plugins, and eCommerce solutions built for scalability.</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover-scale">
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover-glow">
                     <h3 class="text-2xl font-playfair font-bold text-orange-500 mb-4">Speed Optimization</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Using LiteSpeed & CyberPanel for blazing-fast load times and SEO boosts.</p>
+                    <p class="text-gray-700 dark:text-gray-300">Lightning-fast performance using LiteSpeed, CyberPanel, and caching techniques.</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover-scale">
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover-glow">
                     <h3 class="text-2xl font-playfair font-bold text-orange-500 mb-4">Custom Development</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Proficient in PHP, HTML, CSS, and MediaWiki for tailored solutions.</p>
+                    <p class="text-gray-700 dark:text-gray-300">Advanced PHP, JavaScript, and API integrations to extend functionality.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-20 bg-orange-500">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-4xl font-playfair font-bold text-white mb-6">Have a Project in Mind?</h2>
-            <a href="#contact" class="bg-white text-orange-500 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors">Let's Talk</a>
-        </div>
-    </section>
-
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-gray-100 dark:bg-gray-800">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-playfair font-bold text-center text-orange-500 mb-8">Contact</h2>
-            <form class="max-w-2xl mx-auto">
-                <div class="mb-6">
-                    <input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                </div>
-                <div class="mb-6">
-                    <input type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                </div>
-                <div class="mb-6">
-                    <textarea placeholder="Your Message" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500" rows="5"></textarea>
-                </div>
-                <button type="submit" class="bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition-colors">Send Message</button>
-            </form>
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-playfair font-bold text-orange-500 mb-8">Get in Touch</h2>
+            <p class="text-gray-700 dark:text-gray-300 max-w-xl mx-auto">Let's collaborate and bring your ideas to life.</p>
+            <a href="mailto:your@email.com" class="mt-6 inline-block bg-orange-500 text-white px-10 py-4 rounded-lg hover:bg-orange-600 transition-colors hover-glow">Email Me</a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-10 bg-gray-800 text-gray-300">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2023 Danko Creative. All rights reserved.</p>
-        </div>
+    <footer class="py-10 bg-gray-800 text-gray-300 text-center">
+        <p>&copy; 2025 Danko Creative. All rights reserved.</p>
     </footer>
 </body>
 </html>
