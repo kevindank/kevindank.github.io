@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Danko Creative - Night Beach Scene</title>
+  <style>
+    /* Global styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0a0a0a;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      position: relative;
+      height: 100vh;
+    }
+    .scene {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+    /* Stars */
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .star {
+      position: absolute;
+      background: white;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle 3s infinite alternate;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    /* Ocean */
+    .ocean {
+      position: absolute;
+      bottom: 20vh; /* Beach height is 20vh */
+      width: 100%;
+      height: 60vh;
+      background: linear-gradient(to top, #001f3f, #0a0a0a);
+      overflow: hidden;
+      z-index: 2;
+    }
+    .wave {
+      position: absolute;
+      bottom: 0;
+      width: 200%;
+      height: 20vh;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: waveMove 20s linear infinite;
+    }
+    .wave:nth-child(2) {
+      animation-duration: 25s;
+      opacity: 0.07;
+    }
+    @keyframes waveMove {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    /* Beach */
+    .beach {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 20vh;
+      background: #2b1f16; /* Dark sandy color */
+      z-index: 3;
+      overflow: hidden;
+    }
+    /* Tidal wave overlay on beach */
+    .tidal-wave {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8vh;
+      background: linear-gradient(to bottom, rgba(0, 31, 63, 0.7), transparent);
+      border-bottom-left-radius: 50% 100%;
+      border-bottom-right-radius: 50% 100%;
+      animation: tideInOut 10s ease-in-out infinite alternate;
+      z-index: 4;
+    }
+    @keyframes tideInOut {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-3vh); }
+    }
+    /* CSS Person Walking */
+    .person {
+      position: absolute;
+      bottom: 5vh; /* Slightly above the beach bottom */
+      left: -50px;
+      width: 30px;
+      height: 60px;
+      z-index: 5;
+      animation: walk 15s linear infinite;
+    }
+    .person .head {
+      width: 20px;
+      height: 20px;
+      background: #00ffcc;
+      border-radius: 50%;
+      margin: 0 auto;
+    }
+    .person .body {
+      width: 8px;
+      height: 25px;
+      background: #00ffcc;
+      margin: 0 auto;
+      position: relative;
+    }
+    .person .leg {
+      width: 4px;
+      height: 20px;
+      background: #00ffcc;
+      position: absolute;
+      bottom: 0;
+      transform-origin: top;
+      animation: step 0.5s linear infinite alternate;
+    }
+    .person .leg.leg1 {
+      left: 2px;
+    }
+    .person .leg.leg2 {
+      right: 2px;
+      animation-delay: 0.25s;
+    }
+    @keyframes step {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(20deg); }
+    }
+    @keyframes walk {
+      0% { left: -50px; }
+      100% { left: 110%; }
+    }
+    /* Spotify Playlist Container */
+    .spotify-container {
+      position: absolute;
+      top: 5vh;
+      right: 5vw;
+      z-index: 10;
+      text-align: center;
+    }
+    .play-button {
+      background: none;
+      border: 2px solid #00ffcc;
+      color: #00ffcc;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.3s;
+      font-family: 'Inter', sans-serif;
+    }
+    .play-button:hover {
+      background: #00ffcc;
+      color: #0a0a0a;
+    }
+    #spotify {
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <!-- Stars -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- Ocean with waves -->
+    <div class="ocean">
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
+    
+    <!-- Beach with tidal wave and person -->
+    <div class="beach">
+      <div class="tidal-wave"></div>
+      <!-- CSS Person Walking -->
+      <div class="person">
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="leg leg1"></div>
+        <div class="leg leg2"></div>
+      </div>
+    </div>
+    
+    <!-- Spotify Playlist -->
+    <div class="spotify-container">
+      <button class="play-button" onclick="toggleSpotify()">▶ Play Playlist</button>
+      <div id="spotify">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5YEpFn63ct614BWd0rYWVV?si=45414e6f133b42d5" width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Create stars dynamically
+    function createStars() {
+      const starContainer = document.getElementById('stars');
+      for (let i = 0; i < 150; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.top = Math.random() * 100 + 'vh';
+        star.style.animationDuration = (3 + Math.random() * 3) + 's';
+        starContainer.appendChild(star);
+      }
+    }
+    createStars();
+    
+    // Toggle Spotify embed display
+    function toggleSpotify() {
+      const spotify = document.getElementById('spotify');
+      if (spotify.style.display === 'none' || spotify.style.display === '') {
+        spotify.style.display = 'block';
+      } else {
+        spotify.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

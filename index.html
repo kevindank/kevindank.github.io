@@ -1,311 +1,656 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zombie Web - Apocalypse Experience</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-    rel="stylesheet"
-  />
-  <!-- Font Awesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-  />
-
-  <script>
-    // Toggle Dark/Light Mode
-    function toggleDarkMode() {
-      document.documentElement.classList.toggle("dark");
-    }
-  </script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danko Creative</title>
   <style>
-    /* 
-      COLOR SCHEME from the comic:
-      Greens, Blacks, Whites, Browns, Yellows
-    */
-    :root {
-      --zombie-green:  #9FC131; /* Main zombie skin tone */
-      --brick-red:     #B54F28; /* Brick background */
-      --wood-brown:    #754C24; /* Wood board color */
-      --hair-yellow:   #D8C58D; /* Hair highlight */
-      --skin-tone:     #B5A28C; /* Character's skin tone */
-      --pure-black:    #000000;
-      --pure-white:    #FFFFFF;
-    }
-    
-    /* Custom text colors */
-    .text-skin-tone { color: var(--skin-tone); }
-    .text-brick-red { color: var(--brick-red); }
-
-    /* Base fonts */
-    body {
-      font-family: "Inter", sans-serif;
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
-    .font-playfair {
-      font-family: "Playfair Display", serif;
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0a0a;
+      color: #ffffff;
+      overflow-x: hidden;
     }
-    
-    /* Dark/Light Backgrounds */
-    body:not(.dark) {
-      background-color: var(--pure-white);
-      color: var(--pure-black);
+
+    a {
+      text-decoration: none;
+      color: inherit;
     }
-    body.dark {
-      background-color: var(--pure-black);
-      color: var(--pure-white);
-    }
-    
-    /* Glass effect */
-    .glass {
-      background: rgba(255, 255, 255, 0.1);
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: rgba(10, 10, 10, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    
-    /* Animations */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #00ffcc;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 1px;
     }
-    .fade-in-up {
-      animation: fadeInUp 1.5s ease forwards;
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
     }
-    
-    /* Cinematic Shake & Flash for comic.jpg */
-    @keyframes cinematicShake {
-      0% {
-        transform: translate(0, 0) rotate(0deg);
-        filter: brightness(1);
+
+    .nav-links a {
+      font-size: 16px;
+      color: #ffffff;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #00ffcc;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background-color: rgba(10, 10, 10, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
       }
-      10% {
-        transform: translate(-5px, -5px) rotate(-2deg);
-        filter: brightness(1.2);
+
+      .nav-links.active {
+        display: flex;
       }
-      20% {
-        transform: translate(5px, 5px) rotate(2deg);
-        filter: brightness(0.8);
-      }
-      30% {
-        transform: translate(-3px, 3px) rotate(-1deg);
-        filter: brightness(1.1);
-      }
-      40%,
-      100% {
-        transform: translate(0, 0) rotate(0deg);
-        filter: brightness(1);
+
+      .hamburger {
+        display: flex;
       }
     }
-    #comicGraphic {
-      animation: cinematicShake 4s ease-in-out infinite;
+
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #051525, #07273f);
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+      overflow: hidden;
     }
-    
-    /* Hero Section - parallax background */
-    #hero {
-      background-attachment: fixed;
-      background-size: cover;
-      background-position: center;
-    }
-    
-    /* 8-Bit Zombie Game (Pure CSS) */
-    /* Using a pixelated image for 8-bit feel.
-       Ensure you have an 8-bit zombie image at "images/zombie8bit.png"
-       or replace the URL with one of your choice. */
-    .zombie {
+
+    .beach-container {
       position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .moon {
+      position: absolute;
+      top: 50px;
+      right: 80px;
       width: 80px;
       height: 80px;
-      background: url('images/zombie8bit.png') center/contain no-repeat;
-      image-rendering: pixelated;
-      /* The moveZombie animation makes the zombie cross the container */
-      animation: moveZombie 6s linear infinite;
+      background-color: #f4f4ff;
+      border-radius: 50%;
+      box-shadow: 0 0 30px 10px rgba(244, 244, 255, 0.3);
     }
-    @keyframes moveZombie {
-      0% { transform: translateX(110%); }
-      100% { transform: translateX(-120%); }
+
+    .sand {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: #0c2e4a;
     }
-    /* 
-      Create multiple zombies with different delays and vertical positions.
-      We use nth-child selectors to assign unique top positions and animation delays.
-    */
-    #game-container .zombie:nth-child(1) {
-      top: 10%;
-      animation-delay: 0s;
+
+    .hero h1, .hero p, .button-container {
+      position: relative;
+      z-index: 2;
     }
-    #game-container .zombie:nth-child(2) {
-      top: 35%;
-      animation-delay: 2s;
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: bold;
+      color: #00ffcc;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 20px;
+      z-index: 1;
     }
-    #game-container .zombie:nth-child(3) {
-      top: 60%;
-      animation-delay: 4s;
+
+    .hero p {
+      font-size: 20px;
+      color: #ffffff;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      z-index: 1;
     }
-    #game-container .zombie:nth-child(4) {
-      top: 80%;
-      animation-delay: 6s;
+
+    .button-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
     }
-    #game-container .zombie:nth-child(5) {
-      top: 20%;
-      animation-delay: 8s;
+
+    .start-game-button,
+    .learn-more-button {
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .start-game-button {
+      background-color: #00ffcc;
+      color: #0a0a0a;
+    }
+
+    .start-game-button:hover {
+      background-color: #00ccaa;
+    }
+
+    .learn-more-button {
+      background-color: transparent;
+      border: 2px solid #00ffcc;
+      color: #00ffcc;
+    }
+
+    .learn-more-button:hover {
+      background-color: rgba(0, 255, 204, 0.1);
+    }
+
+    .tsunami-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0, 180, 216, 0.8), rgba(0, 119, 182, 0.8));
+      z-index: 1001;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .tsunami-overlay.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0, 0); }
+      10% { transform: translate(-10px, 10px); }
+      20% { transform: translate(10px, -10px); }
+      30% { transform: translate(-10px, -10px); }
+      40% { transform: translate(10px, 10px); }
+      50% { transform: translate(-10px, 10px); }
+      60% { transform: translate(10px, -10px); }
+      70% { transform: translate(-10px, -10px); }
+      80% { transform: translate(10px, 10px); }
+      90% { transform: translate(-10px, 10px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    .shake {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    .game-section {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+      background: linear-gradient(to bottom, #001f3f, #0a0a0a);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    canvas {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+
+    .game-title {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: #00ffcc;
+      font-family: 'Poppins', sans-serif;
+      z-index: 1;
+    }
+
+    .score {
+      font-size: 24px;
+      margin-top: 20px;
+      color: #ffffff;
+      z-index: 1;
+    }
+
+    .pause-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #00ffcc;
+      color: #0a0a0a;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .pause-button:hover {
+      background-color: #00ccaa;
+    }
+
+    .services {
+      padding: 80px 40px;
+      background-color: #0a0a0a;
+      text-align: center;
+    }
+
+    .services h2 {
+      font-size: 36px;
+      color: #00ffcc;
+      margin-bottom: 40px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .service-cards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .service-card {
+      background-color: #1a1a1a;
+      padding: 30px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 255, 204, 0.2);
+    }
+
+    .service-card h3 {
+      font-size: 24px;
+      color: #00ffcc;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      font-size: 16px;
+      color: #ffffff;
+    }
+
+    .music-section {
+      padding: 80px 40px;
+      background-color: #0a0a0a;
+      text-align: center;
+    }
+
+    .music-section h2 {
+      font-size: 36px;
+      color: #00ffcc;
+      margin-bottom: 40px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .play-button {
+      background-color: #00ffcc;
+      color: #0a0a0a;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .play-button:hover {
+      background-color: #00ccaa;
+    }
+
+    #spotify-container {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .spotify-embed {
+      border-radius: 12px;
+      width: 300px;
+      height: 152px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      background-color: #001f3f;
+      color: #ffffff;
+    }
+
+    footer p {
+      font-size: 14px;
+      color: #888;
+    }
+    
+    @keyframes twinkle {
+      0% { opacity: 0.2; }
+      50% { opacity: 0.8; }
+      100% { opacity: 0.2; }
     }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 </head>
+<body>
+  <nav>
+    <div class="logo">Danko Creative</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </nav>
 
-<body class="transition-colors duration-500">
-  <!-- Header -->
-  <header class="fixed w-full bg-black/50 dark:bg-black/70 backdrop-blur-md z-50">
-    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <img src="images/comic.jpg" alt="Zombie Comic Logo" class="w-10 h-10 object-contain" />
-        <span class="text-2xl font-playfair font-bold" style="color: var(--hair-yellow);">Zombie Web</span>
+  <section class="hero">
+    <div class="beach-container">
+      <div class="stars" id="stars"></div>
+      <div class="moon"></div>
+      <div class="sand"></div>
+    </div>
+    <div>
+      <h1>Ride the Code Wave</h1>
+      <p>We create stunning, high-performance WordPress websites that make your brand shine. Let's build something amazing together.</p>
+      <div class="button-container">
+        <button class="start-game-button" onclick="startGame()">Start Game</button>
+        <button class="learn-more-button" onclick="window.location.href='#services'">Learn More</button>
       </div>
-      <nav class="flex items-center space-x-6">
-        <a href="#hero" class="hover:text-[var(--zombie-green)]">Home</a>
-        <a href="#about" class="hover:text-[var(--zombie-green)]">About</a>
-        <a href="#services" class="hover:text-[var(--zombie-green)]">Services</a>
-        <a href="#game" class="hover:text-[var(--zombie-green)]">Spawn Game</a>
-        <a href="#contact" class="hover:text-[var(--zombie-green)]">Contact</a>
-        <button onclick="toggleDarkMode()" class="hover:text-[var(--zombie-green)]">
-          <i class="fas fa-adjust"></i>
-        </button>
-      </nav>
     </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section
-    id="hero"
-    class="h-screen w-full flex items-center justify-center relative"
-    style="background-image: url('images/comic.jpg');"
-  >
-    <div class="absolute inset-0 bg-black/60"></div>
-    <div class="relative text-center fade-in-up">
-      <h1 class="text-5xl md:text-6xl font-playfair font-bold" style="color: var(--hair-yellow); margin-bottom: 1rem;">
-        The Apocalypse Is Here
-      </h1>
-      <p class="text-xl md:text-2xl mb-6 max-w-2xl mx-auto text-skin-tone">
-        Brace your website for the onslaught of undead slowdowns.
-        Together, we'll fortify your digital stronghold!
-      </p>
-      <a
-        href="#contact"
-        class="inline-block px-8 py-3 bg-[var(--zombie-green)] text-black font-bold rounded-md hover:opacity-80 transition"
-      >
-        Secure Your Site
-      </a>
-    </div>
+    <div class="tsunami-overlay"></div>
   </section>
 
-  <!-- About Section -->
-  <section id="about" class="py-16">
-    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-10">
-      <!-- Interactive Comic Image -->
-      <div class="md:w-1/2 flex justify-center">
-        <img 
-          id="comicGraphic" 
-          src="images/comic.jpg" 
-          alt="Zombie Comic Inspiration" 
-          class="max-w-full h-auto rounded shadow-lg"
-        />
+  <section class="game-section">
+    <h1 class="game-title">Code Wave</h1>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <div class="score">Score: <span id="score">0</span></div>
+    <button class="pause-button" onclick="togglePause()">Pause</button>
+  </section>
+
+  <section class="services" id="services">
+    <h2>Our Services</h2>
+    <div class="service-cards">
+      <div class="service-card">
+        <h3>Custom WordPress Themes</h3>
+        <p>We design and develop bespoke WordPress themes tailored to your brand.</p>
       </div>
-      <!-- Text Content -->
-      <div class="md:w-1/2 fade-in-up">
-        <h2 class="text-4xl font-playfair font-bold text-brick-red mb-4">About Zombie Web</h2>
-        <p class="text-skin-tone leading-relaxed">
-          Drawing from the intense visuals of classic horror comics, 
-          <strong style="color: var(--zombie-green);">Zombie Web</strong> merges cinematic design with cutting-edge development. Our mission:
-          to shield your online presence from the ravenous hordes of downtime and digital decay.
-        </p>
+      <div class="service-card">
+        <h3>Plugin Development</h3>
+        <p>We create custom plugins to extend your website's functionality.</p>
+      </div>
+      <div class="service-card">
+        <h3>Website Optimization</h3>
+        <p>We optimize your WordPress site for speed, SEO, and performance.</p>
       </div>
     </div>
   </section>
 
-  <!-- Services Section -->
-  <section id="services" class="py-16" style="background-color: rgba(117,76,36,0.1);">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-playfair font-bold text-brick-red text-center mb-12">
-        Our Services
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="glass p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 fade-in-up">
-          <h3 class="text-2xl font-playfair font-bold" style="color: var(--zombie-green); margin-bottom: 1rem;">Web Design</h3>
-          <p>
-            We create visuals that grab attention and never let go—just like a zombie horde.
-          </p>
-        </div>
-        <div class="glass p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 fade-in-up">
-          <h3 class="text-2xl font-playfair font-bold" style="color: var(--zombie-green); margin-bottom: 1rem;">Development</h3>
-          <p>
-            Our code stands strong against the undead threat of bugs and performance bottlenecks.
-          </p>
-        </div>
-        <div class="glass p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 fade-in-up">
-          <h3 class="text-2xl font-playfair font-bold" style="color: var(--zombie-green); margin-bottom: 1rem;">Optimization</h3>
-          <p>
-            We fortify your site with speed enhancements that leave zombies (and your competition) behind.
-          </p>
-        </div>
-      </div>
+  <section class="music-section" id="music">
+    <h2>Now Playing</h2>
+    <button class="play-button" onclick="toggleSpotify()">▶ Play Playlist</button>
+    <div id="spotify-container">
+      <iframe class="spotify-embed" src="https://open.spotify.com/embed/playlist/5YEpFn63ct614BWd0rYWVV?utm_source=generator&theme=0&autoplay=1" frameborder="0" allow="encrypted-media; autoplay" allowfullscreen="" loading="lazy"></iframe>
     </div>
   </section>
 
-  <!-- 8-Bit Zombie Spawning Game Section (Pure CSS) -->
-  <section id="game" class="py-16">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-playfair font-bold text-brick-red mb-6">8-Bit Zombie Spawn</h2>
-      <p class="mb-6 text-skin-tone">
-        Watch as 8-bit zombies relentlessly traverse the screen. No JavaScript—just pure CSS mayhem!
-      </p>
-      <div
-        id="game-container"
-        class="relative mx-auto bg-black/40 dark:bg-black/60 glass rounded-lg overflow-hidden"
-        style="width: 600px; height: 300px;"
-      >
-        <!-- Create multiple zombie elements with pure CSS animations -->
-        <div class="zombie"></div>
-        <div class="zombie"></div>
-        <div class="zombie"></div>
-        <div class="zombie"></div>
-        <div class="zombie"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="py-16" style="background-color: rgba(181,79,40,0.1);">
-    <div class="container mx-auto px-6">
-      <div class="max-w-2xl mx-auto glass p-8 rounded-lg shadow-xl text-center">
-        <h2 class="text-4xl font-playfair font-bold text-brick-red mb-4">Contact Us</h2>
-        <p class="mb-6 text-skin-tone">
-          Ready to reinforce your digital fortress? Let’s team up!
-        </p>
-        <form class="space-y-4">
-          <input type="text" placeholder="Your Name" class="w-full p-4 rounded-lg bg-white/80 dark:bg-black/70 border border-black/20 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-[var(--zombie-green)]" />
-          <input type="email" placeholder="Your Email" class="w-full p-4 rounded-lg bg-white/80 dark:bg-black/70 border border-black/20 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-[var(--zombie-green)]" />
-          <textarea placeholder="Your Message" rows="4" class="w-full p-4 rounded-lg bg-white/80 dark:bg-black/70 border border-black/20 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-[var(--zombie-green)]"></textarea>
-          <button type="submit" class="w-full bg-[var(--zombie-green)] text-black p-4 rounded-lg font-bold hover:opacity-80 transition-colors">
-            Send Message
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="py-8 bg-black text-white text-center">
-    <p>&copy; 2025 Zombie Web. All rights reserved.</p>
+  <footer>
+    <p>&copy; 2023 Danko Creative. All rights reserved.</p>
   </footer>
 
-  <!-- Background Ambience / Trailer Music (Optional) -->
-  <audio id="trailerAudio" src="https://www.soundjay.com/human/zombie-moaning-01.mp3" loop></audio>
+  <script>
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('active');
+    }
+
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreElement = document.getElementById('score');
+    const gameSection = document.querySelector('.game-section');
+    const tsunamiOverlay = document.querySelector('.tsunami-overlay');
+
+    let score = 0;
+    let surfer = {
+      x: canvas.width / 2 - 25,
+      y: canvas.height - 60,
+      width: 50,
+      height: 80,
+      speed: 5
+    };
+
+    let obstacles = [];
+    let gameSpeed = 2;
+    let gameStarted = false;
+    let gamePaused = false;
+    let gameOver = false;
+
+    function drawSurfer() {
+      ctx.fillStyle = '#00ffcc';
+      ctx.fillRect(surfer.x, surfer.y, surfer.width, surfer.height);
+    }
+
+    function drawObstacles() {
+      ctx.fillStyle = '#0077b6';
+      obstacles.forEach((obstacle) => {
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+      });
+    }
+
+    function drawGameOver() {
+      ctx.font = '48px Poppins';
+      ctx.fillStyle = '#ff4d4d';
+      ctx.textAlign = 'center';
+      ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2);
+      ctx.font = '24px Poppins';
+      ctx.fillText(`Final Score: ${score}`, canvas.width / 2, canvas.height / 2 + 40);
+    }
+
+    function updateSurfer() {
+      if (keys.ArrowLeft && surfer.x > 0) {
+        surfer.x -= surfer.speed;
+      }
+      if (keys.ArrowRight && surfer.x + surfer.width < canvas.width) {
+        surfer.x += surfer.speed;
+      }
+    }
+
+    function updateObstacles() {
+      obstacles.forEach((obstacle) => {
+        obstacle.y += gameSpeed;
+        if (
+          surfer.x < obstacle.x + obstacle.width &&
+          surfer.x + surfer.width > obstacle.x &&
+          surfer.y < obstacle.y + obstacle.height &&
+          surfer.y + surfer.height > obstacle.y
+        ) {
+          gameOver = true;
+        }
+        if (obstacle.y > canvas.height) {
+          obstacles.splice(obstacles.indexOf(obstacle), 1);
+          score++;
+          updateScore();
+        }
+      });
+      if (Math.random() < 0.02) {
+        obstacles.push({
+          x: Math.random() * (canvas.width - 50),
+          y: 0,
+          width: 50,
+          height: 20
+        });
+      }
+    }
+
+    function updateScore() {
+      scoreElement.textContent = score;
+    }
+
+    function resetGame() {
+      score = 0;
+      obstacles = [];
+      gameOver = false;
+      updateScore();
+    }
+
+    function gameLoop() {
+      if (!gameStarted || gamePaused) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawSurfer();
+      drawObstacles();
+      updateSurfer();
+      updateObstacles();
+      if (gameOver) {
+        drawGameOver();
+        return;
+      }
+      requestAnimationFrame(gameLoop);
+    }
+
+    const keys = {
+      ArrowLeft: false,
+      ArrowRight: false
+    };
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key in keys) {
+        keys[e.key] = true;
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (e.key in keys) {
+        keys[e.key] = false;
+      }
+    });
+
+    function startGame() {
+      triggerTsunami();
+      setTimeout(() => {
+        gameStarted = true;
+        gameSection.style.display = 'flex';
+        resetGame();
+        gameLoop();
+      }, 2000);
+    }
+
+    function togglePause() {
+      gamePaused = !gamePaused;
+      const pauseButton = document.querySelector('.pause-button');
+      pauseButton.textContent = gamePaused ? 'Resume' : 'Pause';
+      if (!gamePaused) gameLoop();
+    }
+
+    function triggerTsunami() {
+      document.body.classList.add('shake');
+      setTimeout(() => {
+        document.body.classList.remove('shake');
+      }, 500);
+      tsunamiOverlay.classList.add('active');
+      setTimeout(() => {
+        tsunamiOverlay.classList.remove('active');
+      }, 2000);
+    }
+
+    function toggleSpotify() {
+      const spotifyContainer = document.getElementById('spotify-container');
+      if (spotifyContainer.style.display === 'none' || spotifyContainer.style.display === '') {
+        spotifyContainer.style.display = 'block';
+      } else {
+        spotifyContainer.style.display = 'none';
+      }
+    }
+    
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      const starCount = 100;
+      
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.style.position = 'absolute';
+        star.style.width = '2px';
+        star.style.height = '2px';
+        star.style.backgroundColor = '#ffffff';
+        star.style.borderRadius = '50%';
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.opacity = Math.random();
+        star.style.animation = `twinkle ${2 + Math.random() * 3}s infinite`;
+        
+        starsContainer.appendChild(star);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', createStars);
+  </script>
 </body>
 </html>
